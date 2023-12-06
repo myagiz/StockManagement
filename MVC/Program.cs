@@ -12,8 +12,8 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(); ;
 builder.Services.AddTransient<IStockTypeDal, EfCoreStockType>();
 builder.Services.AddTransient<IStockTypeService, StockTypeManager>();
 
-builder.Services.AddTransient<IStockTypeDal, EfCoreStockType>();
-builder.Services.AddTransient<IStockTypeService, StockTypeManager>();
+builder.Services.AddTransient<IStockUnitDal, EfCoreStockUnitDal>();
+builder.Services.AddTransient<IStockUnitService, StockUnitManager>();
 
 var app = builder.Build();
 

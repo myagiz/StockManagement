@@ -47,6 +47,12 @@ namespace Business.Concrete
             return new SuccessDataResult<List<StockType>>(result, Messages.Listed);
         }
 
+        public IDataResult<List<StockType>> GetAllStockTypesOnlyActive()
+        {
+            var result = _stockTypeDal.GetAll(x=>x.IsActive==true);
+            return new SuccessDataResult<List<StockType>>(result, Messages.Listed);
+        }
+
         public IDataResult<StockType> GetStockTypeById(int id)
         {
             var result = _stockTypeDal.GetById(id);

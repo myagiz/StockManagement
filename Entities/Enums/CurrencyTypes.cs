@@ -9,16 +9,16 @@ namespace Entities.Enums
 {
     public enum CurrencyTypes
     {
-        [Description("Turkish Lira")]
+        [Description("₺")]
         TurkishLira = 1,
 
-        [Description("Euro")]
+        [Description("€")]
         Euro = 2,
 
-        [Description("USD")]
+        [Description("$")]
         USD = 3,
 
-        [Description("Sterlin")]
+        [Description("£")]
         Sterlin = 4
     }
 }

@@ -72,14 +72,14 @@
                                                 <span>
                                                     @if (item.IsActive == true)
                                                     {
-                                                        <form action="/stock/ChangeStatus" method="post" style="display: inline">
+                                                        <form action="/stock/ChangeStatusForStockType" method="post" style="display: inline">
                                                             <input type="hidden" name="Id" value="@item.Id" />
                                                             <button type="submit" class="btn btn-danger btn-sm"><i type="submit" class="fa-solid fa-trash text-white"></i></button>
                                                         </form>
                                                     }
                                                     else
                                                     {
-                                                        <form action="/stock/ChangeStatus" method="post" style="display: inline">
+                                                        <form action="/stock/ChangeStatusForStockType" method="post" style="display: inline">
                                                             <input type="hidden" name="Id" value="@item.Id" />
                                                             <button type="submit" class="btn btn-secondary btn-sm"><i class="fa-solid fa-rotate-left text-white"></i></button>
                                                         </form>

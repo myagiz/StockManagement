@@ -32,17 +32,27 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Type Name</th>
+                                    <th>Code</th>
+                                    <th>Stock Type</th>
+                                    <th>Unit</th>
+                                    <th>Description</th>
+                                    <th>Purchase Price</th>
+                                    <th>Sale Price</th>
                                     <th>Status</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model.ListStockTypes)
+                                @foreach (var item in Model.ListStockUnits)
                                 {
                                     <tr>
                                         <td>@item.Id</td>
-                                        <td>@item.Name</td>
+                                        <td>@item.Code</td>
+                                        <td>@item.StockTypeName</td>
+                                        <td>@item.UnitName</td>
+                                        <td>@item.Description</td>
+                                        <td>@item.PurchaseCurrencyName @item.PurchasePrice</td>
+                                        <td>@item.SaleCurrencyName @item.SalePrice</td>
                                         <td>
                                             <span>
                                                 @if (item.IsActive == true)
@@ -72,14 +82,14 @@
                                                 <span>
                                                     @if (item.IsActive == true)
                                                     {
-                                                        <form action="/stock/ChangeStatus" method="post" style="display: inline">
+                                                        <form action="/stock/ChangeStatusForStockUnit" method="post" style="display: inline">
                                                             <input type="hidden" name="Id" value="@item.Id" />
                                                             <button type="submit" class="btn btn-danger btn-sm"><i type="submit" class="fa-solid fa-trash text-white"></i></button>
                                                         </form>
                                                     }
                                                     else
                                                     {
-                                                        <form action="/stock/ChangeStatus" method="post" style="display: inline">
+                                                        <form action="/stock/ChangeStatusForStockUnit" method="post" style="display: inline">
                                                             <input type="hidden" name="Id" value="@item.Id" />
                                                             <button type="submit" class="btn btn-secondary btn-sm"><i class="fa-solid fa-rotate-left text-white"></i></button>
                                                         </form>
@@ -107,12 +117,70 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Create Form</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form asp-controller="Stock" asp-action="AddStockType" method="post">
+            <form asp-controller="Stock" asp-action="AddStockUnit" method="post">
                 <div class="modal-body">
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label"><strong>Type</strong></label>
-                        <div class="col-md-10">
-                            <input maxlength="100" asp-for="StockType.Name" class="form-control form-control-sm" placeholder="Enter Stock type name" />
+                    <div class="form-group row mb-2">
+                        <label class="col-md-4 col-form-label"><strong>Code</strong></label>
+                        <div class="col-md-8">
+                            <input maxlength="100" asp-for="StockUnit.Code" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label class="col-md-4 col-form-label"><strong>Stock Type</strong></label>
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(x=>x.StockUnit.StockType,(List<SelectListItem>)ViewBag.StockTypes,new {@class="form-control form-control-sm"})
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label class="col-md-4 col-form-label"><strong>Unit</strong></label>
+                        <div class="col-md-8">
+                            <input maxlength="100" asp-for="StockUnit.UnitId" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label class="col-md-4 col-form-label"><strong>Paperweight</strong></label>
+                        <div class="col-md-8">
+                            <input type="number" asp-for="StockUnit.Paperweight" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label class="col-md-4 col-form-label"><strong>Purchase Currency</strong></label>
+                        <div class="col-md-8">
+                            <select class="form-control form-control-sm" asp-for="StockUnit.PurchaseCurrencyId">
+                                <option value="1">TL</option>
+                                <option value="2">Euro</option>
+                                <option value="3">USD</option>
+                                <option value="2">GBP</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label class="col-md-4 col-form-label"><strong>Purchase Price</strong></label>
+                        <div class="col-md-8">
+                            <input type="number" asp-for="StockUnit.PurchasePrice" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label class="col-md-4 col-form-label"><strong>Sale Currency</strong></label>
+                        <div class="col-md-8">
+                            <select class="form-control form-control-sm" asp-for="StockUnit.SaleCurrencyId">
+                                <option value="1">TL</option>
+                                <option value="2">Euro</option>
+                                <option value="3">USD</option>
+                                <option value="2">GBP</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label class="col-md-4 col-form-label"><strong>Sale Price</strong></label>
+                        <div class="col-md-8">
+                            <input type="number" asp-for="StockUnit.SalePrice" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label class="col-md-4 col-form-label"><strong>Description</strong></label>
+                        <div class="col-md-8">
+                            <textarea maxlength="100" asp-for="StockUnit.Description" class="form-control form-control-sm"></textarea>
                         </div>
                     </div>
                 </div>
@@ -135,13 +203,66 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Form</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="editForm" asp-controller="Stock" asp-action="UpdateStockType" method="post">
-                <input type="hidden" id="id" asp-for="StockType.Id" />
+            <form id="editForm" asp-controller="Stock" asp-action="UpdateStockUnit" method="post">
+                <input type="hidden" id="id" asp-for="GetStockUnit.Id" />
                 <div class="modal-body">
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label"><strong>Type</strong></label>
-                        <div class="col-md-10">
-                            <input maxlength="100" id="name" asp-for="StockType.Name" class="form-control form-control-sm" placeholder="Enter Stock type name" />
+                    <div class="form-group row mb-2">
+                        <label class="col-md-4 col-form-label"><strong>Code</strong></label>
+                        <div class="col-md-8">
+                            <input id="code" maxlength="100" asp-for="GetStockUnit.Code" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label class="col-md-4 col-form-label"><strong>Stock Type</strong></label>
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(x=>x.StockUnit.StockType,(List<SelectListItem>)ViewBag.StockTypes,new {@class="form-control form-control-sm"})
+
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label class="col-md-4 col-form-label"><strong>Unit</strong></label>
+                        <div class="col-md-8">
+                            <input id="unitId" maxlength="100" asp-for="GetStockUnit.UnitId" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label class="col-md-4 col-form-label"><strong>Paperweight</strong></label>
+                        <div class="col-md-8">
+                            <input id="paperweight" type="number" asp-for="GetStockUnit.Paperweight" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label class="col-md-4 col-form-label"><strong>Purchase Price</strong></label>
+                        <div class="col-md-6">
+                            <input id="purchasePrice" type="number" asp-for="GetStockUnit.PurchasePrice" class="form-control form-control-sm" />
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-control form-control-sm" id="purchaseCurrencyId" asp-for="StockUnit.PurchaseCurrencyId">
+                                <option value="1">TL</option>
+                                <option value="2">Euro</option>
+                                <option value="3">USD</option>
+                                <option value="2">GBP</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label class="col-md-4 col-form-label"><strong>Sale Price</strong></label>
+                        <div class="col-md-6">
+                            <input id="salePrice" type="number" asp-for="GetStockUnit.SalePrice" class="form-control form-control-sm" />
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-control form-control-sm" id="saleCurrencyId" asp-for="StockUnit.SaleCurrencyId">
+                                <option value="1">TL</option>
+                                <option value="2">Euro</option>
+                                <option value="3">USD</option>
+                                <option value="2">GBP</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label class="col-md-4 col-form-label"><strong>Description</strong></label>
+                        <div class="col-md-8">
+                            <textarea id="description" maxlength="100" asp-for="GetStockUnit.Description" class="form-control form-control-sm"></textarea>
                         </div>
                     </div>
                 </div>
@@ -159,20 +280,28 @@
 <script>
     $(document).ready(function () {
         $('#dataTable').DataTable({
+            responsive: true
 
         });
     });
 
     function editItem(itemId) {
         $.ajax({
-            url: '/Stock/GetStockTypeById',
+            url: '/Stock/GetStockUnit',
             type: 'POST',
             data: { id: itemId },
             success: function (result) {
-                console.log(result.stockType.name)
-                console.log(result.stockType.isActive)
-                $('#id').val(result.stockType.id);
-                $('#name').val(result.stockType.name);
+                console.log(result)
+                $('#id').val(result.getStockUnit.id);
+                $('#code').val(result.getStockUnit.code);
+                $('#stockType').val(result.getStockUnit.stockType);
+                $('#unitId').val(result.getStockUnit.unitId);
+                $('#description').val(result.getStockUnit.description);
+                $('#paperweight').val(result.getStockUnit.paperweight);
+                $('#purchaseCurrencyId').val(result.getStockUnit.purchaseCurrencyId);
+                $('#purchasePrice').val(result.getStockUnit.purchasePrice);
+                $('#saleCurrencyId').val(result.getStockUnit.purchaseCurrencyId);
+                $('#salePrice').val(result.getStockUnit.salePrice);
 
             },
             error: function (error) {
@@ -186,7 +315,7 @@
             e.preventDefault();
 
             $.ajax({
-                url: '/Stock/UpdateStockType',
+                url: '/Stock/UpdateStockUnit',
                 type: 'POST',
                 data: $('#editForm').serialize(),
                 success: function (result) {

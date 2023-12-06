@@ -15,5 +15,6 @@ namespace Business.Abstract
         IResult ChangeStatus(int id);
         IDataResult<StockType> GetStockTypeById(int id);
         IDataResult<List<StockType>> GetAllStockTypes();
+        IDataResult<List<StockType>> GetAllStockTypesOnlyActive();
     }
 }
