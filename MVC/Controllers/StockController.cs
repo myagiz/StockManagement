@@ -12,10 +12,13 @@ namespace MVC.Controllers
 
         private readonly IStockUnitService _stockUnitService;
 
-        public StockController(IStockTypeService stockTypeService, IStockUnitService stockUnitService)
+        private readonly IStockService _stockService;
+
+        public StockController(IStockTypeService stockTypeService, IStockUnitService stockUnitService, IStockService stockService)
         {
             _stockTypeService = stockTypeService;
             _stockUnitService = stockUnitService;
+            _stockService = stockService;
         }
 
         public IActionResult Index()
@@ -119,6 +122,7 @@ namespace MVC.Controllers
         /// </summary>
         /// <returns></returns>
         public IActionResult StockUnit()
+
         {
             var result = _stockUnitService.GetAllStockUnits();
             if (result.Success)
@@ -225,6 +229,136 @@ namespace MVC.Controllers
             }
             TempData["Error"] = result.Message;
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Stock Methods
+        /// </summary>
+        /// <returns></returns>
+
+        public IActionResult Stock()
+        {
+            var result = _stockService.GetAllStocks();
+            if (result.Success)
+            {
+                var getStockTypes = _stockTypeService.GetAllStockTypesOnlyActive();
+                List<SelectListItem> getDropdownList = (from a in getStockTypes.Data
+                                                        select new SelectListItem
+                                                        {
+                                                            Text = a.Name,
+                                                            Value = a.Id.ToString()
+                                                        }
+                                                     ).ToList();
+                ViewBag.StockTypes = getDropdownList;
+
+                var getStockUnits = _stockUnitService.GetAllStockUnitsOnlyActive();
+                List<SelectListItem> getDropdownListForUnit = (from a in getStockUnits.Data
+                                                               select new SelectListItem
+                                                               {
+                                                                   Text = a.Description,
+                                                                   Value = a.Id.ToString()
+                                                               }
+                                                     ).ToList();
+                ViewBag.StockUnits = getDropdownListForUnit;
+
+                return View(new AllStockDto
+                {
+                    ListStocks = result.Data
+
+                });
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult GetStock(int id)
+        {
+            var result = _stockService.GetStock(id);
+            if (result != null)
+            {
+                return Json(new AllStockDto
+                {
+                    GetStock = result.Data
+                });
+            }
+            TempData["Error"] = result.Message;
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult AddStock(AllStockDto model)
+        {
+            var entity = new Stock
+            {
+                StockType = model.Stock.StockType,
+                StockUnit = model.Stock.StockUnit,
+                Quantity = model.Stock.Quantity,
+                CriticalQuantity = model.Stock.CriticalQuantity,
+                ShelfInfo = model.Stock.ShelfInfo,
+                CabinetInfo = model.Stock.CabinetInfo,
+            };
+
+            var result = _stockService.AddStock(entity);
+            if (result.Success)
+            {
+                return RedirectToAction("Stock");
+            }
+            TempData["Error"] = result.Message;
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult UpdateStock(AllStockDto model)
+        {
+            var control = _stockService.GetStock(model.GetStock.Id);
+            if (control.Success)
+            {
+
+                var entity = new Stock
+                {
+                    Id = model.GetStock.Id,
+                    StockType = model.GetStock.StockType,
+                    StockUnit = model.GetStock.StockUnit,
+                    Quantity = model.GetStock.Quantity,
+                    CriticalQuantity = model.GetStock.CriticalQuantity,
+                    ShelfInfo = model.GetStock.ShelfInfo,
+                    CabinetInfo = model.GetStock.CabinetInfo,
+                };
+
+                var updateMethod = _stockService.UpdateStock(entity);
+                if (updateMethod.Success)
+                {
+                    return RedirectToAction("Stock");
+                }
+                TempData["Error"] = control.Message;
+                return RedirectToAction("Index");
+            }
+
+            TempData["Error"] = control.Message;
+            return RedirectToAction("Index");
+
+        }
+
+
+        public IActionResult ChangeStatusForStock(int id)
+        {
+            var result = _stockService.ChangeStatus(id);
+            if (result.Success)
+            {
+                return RedirectToAction("Stock");
+            }
+            TempData["Error"] = result.Message;
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult GetStockUnitsOnlyActiveByStockTypeId(int stockTypeId)
+        {
+            var result = _stockUnitService.GetStockUnitsOnlyActiveByStockTypeId(stockTypeId);
+            if (result.Success)
+            {
+                return Json(result);
+
+            }
+            return Json("");
         }
 
 

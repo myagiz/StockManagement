@@ -27,6 +27,37 @@ namespace DataAccess.Concrete.EfCore
                                 StockType = a.StockType,
                                 StockTypeName = b.Name,
                                 UnitId = a.UnitId,
+                                UnitName = "",
+                                Description = a.Description,
+                                Paperweight = a.Paperweight,
+                                PurchaseCurrencyId = a.PurchaseCurrencyId,
+                                PurchaseCurrencyName = EnumExtensions.GetEnumDescription((CurrencyTypes)a.PurchaseCurrencyId),
+                                PurchasePrice = a.PurchasePrice,
+                                SaleCurrencyId = a.SaleCurrencyId,
+                                SaleCurrencyName = EnumExtensions.GetEnumDescription((CurrencyTypes)a.PurchaseCurrencyId),
+                                SalePrice = a.SalePrice,
+                                IsActive = a.IsActive,
+                            }
+
+                          ).OrderByDescending(x => x.Id).ToList();
+                return data;
+            }
+        }
+
+        public List<GetStockUnitDto> GetAllStockUnitsOnlyActive()
+        {
+            using (var context = new StockManagementContext())
+            {
+                var data = (from a in context.StockUnits.Where(x => x.IsActive == true)
+                            join b in context.StockTypes on a.StockType equals b.Id
+                            select new GetStockUnitDto
+                            {
+                                Id = a.Id,
+                                Code = a.Code,
+                                StockType = a.StockType,
+                                StockTypeName = b.Name,
+                                UnitId = a.UnitId,
+                                UnitName = "",
                                 Description = a.Description,
                                 Paperweight = a.Paperweight,
                                 PurchaseCurrencyId = a.PurchaseCurrencyId,
@@ -56,6 +87,7 @@ namespace DataAccess.Concrete.EfCore
                                 StockType = a.StockType,
                                 StockTypeName = b.Name,
                                 UnitId = a.UnitId,
+                                UnitName = "",
                                 Description = a.Description,
                                 Paperweight = a.Paperweight,
                                 PurchaseCurrencyId = a.PurchaseCurrencyId,
@@ -67,7 +99,37 @@ namespace DataAccess.Concrete.EfCore
                                 IsActive = a.IsActive,
                             }
 
-                          ).OrderByDescending(x => x.Id).FirstOrDefault();
+                          ).FirstOrDefault();
+                return data;
+            }
+        }
+
+        public List<GetStockUnitDto> GetStockUnitsOnlyActiveByStockTypeId(int id)
+        {
+            using (var context = new StockManagementContext())
+            {
+                var data = (from a in context.StockUnits.Where(x => x.IsActive == true && x.StockType == id)
+                            join b in context.StockTypes on a.StockType equals b.Id
+                            select new GetStockUnitDto
+                            {
+                                Id = a.Id,
+                                Code = a.Code,
+                                StockType = a.StockType,
+                                StockTypeName = b.Name,
+                                UnitId = a.UnitId,
+                                UnitName = "",
+                                Description = a.Description,
+                                Paperweight = a.Paperweight,
+                                PurchaseCurrencyId = a.PurchaseCurrencyId,
+                                PurchaseCurrencyName = EnumExtensions.GetEnumDescription((CurrencyTypes)a.PurchaseCurrencyId),
+                                PurchasePrice = a.PurchasePrice,
+                                SaleCurrencyId = a.SaleCurrencyId,
+                                SaleCurrencyName = EnumExtensions.GetEnumDescription((CurrencyTypes)a.PurchaseCurrencyId),
+                                SalePrice = a.SalePrice,
+                                IsActive = a.IsActive,
+                            }
+
+                          ).OrderByDescending(x => x.Id).ToList();
                 return data;
             }
         }

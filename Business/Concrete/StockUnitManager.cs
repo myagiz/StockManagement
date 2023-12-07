@@ -47,6 +47,12 @@ namespace Business.Concrete
             return new SuccessDataResult<List<GetStockUnitDto>>(result, Messages.Listed);
         }
 
+        public IDataResult<List<GetStockUnitDto>> GetAllStockUnitsOnlyActive()
+        {
+            var result = _stockUnitDal.GetAllStockUnitsOnlyActive();
+            return new SuccessDataResult<List<GetStockUnitDto>>(result, Messages.Listed);
+        }
+
         public IDataResult<GetStockUnitDto> GetStockUnit(int id)
         {
             var checkData = _stockUnitDal.Get(x => x.Id == id);
@@ -56,6 +62,12 @@ namespace Business.Concrete
                 return new SuccessDataResult<GetStockUnitDto>(result, Messages.Listed);
             }
             return new ErrorDataResult<GetStockUnitDto>(Messages.NotFoundData);
+        }
+
+        public IDataResult<List<GetStockUnitDto>> GetStockUnitsOnlyActiveByStockTypeId(int id)
+        {
+            var result = _stockUnitDal.GetStockUnitsOnlyActiveByStockTypeId(id);
+            return new SuccessDataResult<List<GetStockUnitDto>>(result, Messages.Listed);
         }
 
         public IResult UpdateStockUnit(StockUnit model)

@@ -12,6 +12,8 @@ namespace DataAccess.Abstract
     public interface IStockUnitDal : IEntityRepository<StockUnit>
     {
         public List<GetStockUnitDto> GetAllStockUnits();
+        public List<GetStockUnitDto> GetAllStockUnitsOnlyActive();
+        public List<GetStockUnitDto> GetStockUnitsOnlyActiveByStockTypeId(int id);
         public GetStockUnitDto GetStockUnit(int id);
     }
 }

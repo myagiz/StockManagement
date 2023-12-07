@@ -15,6 +15,8 @@ namespace Business.Abstract
         IResult UpdateStockUnit(StockUnit model);
         IResult ChangeStatus(int id);
         IDataResult<List<GetStockUnitDto>> GetAllStockUnits();
+        IDataResult<List<GetStockUnitDto>> GetAllStockUnitsOnlyActive();
+        IDataResult<List<GetStockUnitDto>> GetStockUnitsOnlyActiveByStockTypeId(int id);
         IDataResult<GetStockUnitDto> GetStockUnit(int id);
     }
 }

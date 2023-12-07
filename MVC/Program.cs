@@ -15,6 +15,9 @@ builder.Services.AddTransient<IStockTypeService, StockTypeManager>();
 builder.Services.AddTransient<IStockUnitDal, EfCoreStockUnitDal>();
 builder.Services.AddTransient<IStockUnitService, StockUnitManager>();
 
+builder.Services.AddTransient<IStockDal, EfCoreStockDal>();
+builder.Services.AddTransient<IStockService, StockManager>();
+
 var app = builder.Build();
 
 

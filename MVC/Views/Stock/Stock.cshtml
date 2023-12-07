@@ -34,25 +34,25 @@
                                     <th>Id</th>
                                     <th>Code</th>
                                     <th>Stock Type</th>
-                                    <th>Unit</th>
-                                    <th>Description</th>
-                                    <th>Purchase Price</th>
-                                    <th>Sale Price</th>
+                                    <th>Shelf</th>
+                                    <th>Cabinet</th>
+                                    <th>Quantity</th>
+                                    <th>Critical Quantity</th>
                                     <th>Status</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model.ListStockUnits)
+                                @foreach (var item in Model.ListStocks)
                                 {
                                     <tr>
                                         <td>@item.Id</td>
                                         <td>@item.Code</td>
                                         <td>@item.StockTypeName</td>
-                                        <td>@item.UnitName</td>
-                                        <td>@item.Description</td>
-                                        <td>@item.PurchaseCurrencyName @item.PurchasePrice</td>
-                                        <td>@item.SaleCurrencyName @item.SalePrice</td>
+                                        <td>@item.ShelfInfo</td>
+                                        <td>@item.CabinetInfo</td>
+                                        <td>@item.Quantity @item.StockUnit</td>
+                                        <td>@item.CriticalQuantity @item.StockUnit</td>
                                         <td>
                                             <span>
                                                 @if (item.IsActive == true)
@@ -82,14 +82,14 @@
                                                 <span>
                                                     @if (item.IsActive == true)
                                                     {
-                                                        <form action="/stock/ChangeStatusForStockUnit" method="post" style="display: inline">
+                                                        <form action="/stock/ChangeStatusForStock" method="post" style="display: inline">
                                                             <input type="hidden" name="Id" value="@item.Id" />
                                                             <button type="submit" class="btn btn-danger btn-sm"><i type="submit" class="fa-solid fa-trash text-white"></i></button>
                                                         </form>
                                                     }
                                                     else
                                                     {
-                                                        <form action="/stock/ChangeStatusForStockUnit" method="post" style="display: inline">
+                                                        <form action="/stock/ChangeStatusForStock" method="post" style="display: inline">
                                                             <input type="hidden" name="Id" value="@item.Id" />
                                                             <button type="submit" class="btn btn-secondary btn-sm"><i class="fa-solid fa-rotate-left text-white"></i></button>
                                                         </form>
@@ -117,64 +117,42 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Create Form</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form asp-controller="Stock" asp-action="AddStockUnit" method="post">
+            <form asp-controller="Stock" asp-action="AddStock" method="post">
                 <div class="modal-body">
-                    <div class="form-group row mb-2">
-                        <label class="col-md-4 col-form-label"><strong>Code</strong></label>
-                        <div class="col-md-8">
-                            <input maxlength="100" asp-for="StockUnit.Code" class="form-control form-control-sm" />
-                        </div>
-                    </div>
                     <div class="form-group row mb-2">
                         <label class="col-md-4 col-form-label"><strong>Stock Type</strong></label>
                         <div class="col-md-8">
-                            @Html.DropDownListFor(x=>x.StockUnit.StockType,(List<SelectListItem>)ViewBag.StockTypes,new {@class="form-control form-control-sm"})
+                            @Html.DropDownListFor(x=>x.Stock.StockType,(List<SelectListItem>)ViewBag.StockTypes,new {@class="form-control form-control-sm"})
                         </div>
                     </div>
                     <div class="form-group row mb-2">
-                        <label class="col-md-4 col-form-label"><strong>Unit</strong></label>
+                        <label class="col-md-4 col-form-label"><strong>Stock Unit</strong></label>
                         <div class="col-md-8">
-                            <input maxlength="100" asp-for="StockUnit.UnitId" class="form-control form-control-sm" />
+                            @Html.DropDownListFor(x=>x.Stock.StockUnit,(List<SelectListItem>)ViewBag.StockUnits,new {@class="form-control form-control-sm"})
                         </div>
                     </div>
                     <div class="form-group row mb-2">
-                        <label class="col-md-4 col-form-label"><strong>Paperweight</strong></label>
+                        <label class="col-md-4 col-form-label"><strong>Quantity</strong></label>
                         <div class="col-md-8">
-                            <input type="number" asp-for="StockUnit.Paperweight" class="form-control form-control-sm" />
+                            <input type="number" asp-for="Stock.Quantity" class="form-control form-control-sm" />
                         </div>
                     </div>
                     <div class="form-group row mb-2">
-                        <label class="col-md-4 col-form-label"><strong>Purchase Price</strong></label>
-                        <div class="col-md-6">
-                            <input type="number" asp-for="StockUnit.PurchasePrice" class="form-control form-control-sm" />
-                        </div>
-                        <div class="col-md-2">
-                            <select class="form-control form-control-sm" asp-for="StockUnit.PurchaseCurrencyId">
-                                <option value="1">TL</option>
-                                <option value="2">Euro</option>
-                                <option value="3">USD</option>
-                                <option value="2">GBP</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row mb-2">
-                        <label class="col-md-4 col-form-label"><strong>Sale Price</strong></label>
-                        <div class="col-md-6">
-                            <input type="number" asp-for="StockUnit.SalePrice" class="form-control form-control-sm" />
-                        </div>
-                        <div class="col-md-2">
-                            <select class="form-control form-control-sm" asp-for="StockUnit.SaleCurrencyId">
-                                <option value="1">TL</option>
-                                <option value="2">Euro</option>
-                                <option value="3">USD</option>
-                                <option value="2">GBP</option>
-                            </select>
+                        <label class="col-md-4 col-form-label"><strong>Critical Quantity</strong></label>
+                        <div class="col-md-8">
+                            <input type="number" asp-for="Stock.CriticalQuantity" class="form-control form-control-sm" />
                         </div>
                     </div>
                     <div class="form-group row mb-2">
                         <label class="col-md-4 col-form-label"><strong>Description</strong></label>
                         <div class="col-md-8">
-                            <textarea maxlength="100" asp-for="StockUnit.Description" class="form-control form-control-sm"></textarea>
+                            <input maxlength="50" asp-for="Stock.ShelfInfo" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label class="col-md-4 col-form-label"><strong>Cabinet</strong></label>
+                        <div class="col-md-8">
+                            <input maxlength="50" asp-for="Stock.CabinetInfo" class="form-control form-control-sm" />
                         </div>
                     </div>
                 </div>
@@ -197,66 +175,43 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Form</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="editForm" asp-controller="Stock" asp-action="UpdateStockUnit" method="post">
-                <input type="hidden" id="id" asp-for="GetStockUnit.Id" />
+            <form id="editForm" asp-controller="Stock" asp-action="UpdateStock" method="post">
+                <input type="hidden" id="id" asp-for="GetStock.Id" />
                 <div class="modal-body">
-                    <div class="form-group row mb-2">
-                        <label class="col-md-4 col-form-label"><strong>Code</strong></label>
-                        <div class="col-md-8">
-                            <input id="code" maxlength="100" asp-for="GetStockUnit.Code" class="form-control form-control-sm" />
-                        </div>
-                    </div>
                     <div class="form-group row mb-2">
                         <label class="col-md-4 col-form-label"><strong>Stock Type</strong></label>
                         <div class="col-md-8">
-                            @Html.DropDownListFor(x=>x.StockUnit.StockType,(List<SelectListItem>)ViewBag.StockTypes,new {@class="form-control form-control-sm",id="stockType"})
-
+                            @Html.DropDownListFor(x=>x.GetStock.StockType,(List<SelectListItem>)ViewBag.StockTypes,new {@class="form-control form-control-sm",id="stockType"})
                         </div>
                     </div>
                     <div class="form-group row mb-2">
-                        <label class="col-md-4 col-form-label"><strong>Unit</strong></label>
+                        <label class="col-md-4 col-form-label"><strong>Stock Unit</strong></label>
                         <div class="col-md-8">
-                            <input id="unitId" maxlength="100" asp-for="GetStockUnit.UnitId" class="form-control form-control-sm" />
+                            @Html.DropDownListFor(x=>x.GetStock.StockUnit,(List<SelectListItem>)ViewBag.StockUnits,new {@class="form-control form-control-sm",id="stockUnit"})
                         </div>
                     </div>
                     <div class="form-group row mb-2">
-                        <label class="col-md-4 col-form-label"><strong>Paperweight</strong></label>
+                        <label class="col-md-4 col-form-label"><strong>Quantity</strong></label>
                         <div class="col-md-8">
-                            <input id="paperweight" type="number" asp-for="GetStockUnit.Paperweight" class="form-control form-control-sm" />
+                            <input id="quantity" type="number" asp-for="GetStock.Quantity" class="form-control form-control-sm" />
                         </div>
                     </div>
                     <div class="form-group row mb-2">
-                        <label class="col-md-4 col-form-label"><strong>Purchase Price</strong></label>
-                        <div class="col-md-6">
-                            <input id="purchasePrice" type="number" asp-for="GetStockUnit.PurchasePrice" class="form-control form-control-sm" />
-                        </div>
-                        <div class="col-md-2">
-                            <select class="form-control form-control-sm" id="purchaseCurrencyId" asp-for="StockUnit.PurchaseCurrencyId">
-                                <option value="1">TL</option>
-                                <option value="2">Euro</option>
-                                <option value="3">USD</option>
-                                <option value="2">GBP</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row mb-2">
-                        <label class="col-md-4 col-form-label"><strong>Sale Price</strong></label>
-                        <div class="col-md-6">
-                            <input id="salePrice" type="number" asp-for="GetStockUnit.SalePrice" class="form-control form-control-sm" />
-                        </div>
-                        <div class="col-md-2">
-                            <select class="form-control form-control-sm" id="saleCurrencyId" asp-for="StockUnit.SaleCurrencyId">
-                                <option value="1">TL</option>
-                                <option value="2">Euro</option>
-                                <option value="3">USD</option>
-                                <option value="2">GBP</option>
-                            </select>
+                        <label class="col-md-4 col-form-label"><strong>Critical Quantity</strong></label>
+                        <div class="col-md-8">
+                            <input id="criticalQuantity" type="number" asp-for="GetStock.CriticalQuantity" class="form-control form-control-sm" />
                         </div>
                     </div>
                     <div class="form-group row mb-2">
                         <label class="col-md-4 col-form-label"><strong>Description</strong></label>
                         <div class="col-md-8">
-                            <textarea id="description" maxlength="100" asp-for="GetStockUnit.Description" class="form-control form-control-sm"></textarea>
+                            <input id="shelfInfo" maxlength="50" asp-for="GetStock.ShelfInfo" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label class="col-md-4 col-form-label"><strong>Cabinet</strong></label>
+                        <div class="col-md-8">
+                            <input id="cabinetInfo" maxlength="50" asp-for="GetStock.CabinetInfo" class="form-control form-control-sm" />
                         </div>
                     </div>
                 </div>
@@ -281,21 +236,18 @@
 
     function editItem(itemId) {
         $.ajax({
-            url: '/Stock/GetStockUnit',
+            url: '/Stock/GetStock',
             type: 'POST',
             data: { id: itemId },
             success: function (result) {
                 console.log(result)
-                $('#id').val(result.getStockUnit.id);
-                $('#code').val(result.getStockUnit.code);
-                $('#stockType').val(result.getStockUnit.stockType);
-                $('#unitId').val(result.getStockUnit.unitId);
-                $('#description').val(result.getStockUnit.description);
-                $('#paperweight').val(result.getStockUnit.paperweight);
-                $('#purchaseCurrencyId').val(result.getStockUnit.purchaseCurrencyId);
-                $('#purchasePrice').val(result.getStockUnit.purchasePrice);
-                $('#saleCurrencyId').val(result.getStockUnit.purchaseCurrencyId);
-                $('#salePrice').val(result.getStockUnit.salePrice);
+                $('#id').val(result.getStock.id);
+                $('#stockType').val(result.getStock.stockType);
+                $('#stockUnit').val(result.getStock.stockUnit);
+                $('#quantity').val(result.getStock.quantity);
+                $('#criticalQuantity').val(result.getStock.criticalQuantity);
+                $('#shelfInfo').val(result.getStock.shelfInfo);
+                $('#cabinetInfo').val(result.getStock.cabinetInfo);
 
             },
             error: function (error) {
@@ -309,7 +261,7 @@
             e.preventDefault();
 
             $.ajax({
-                url: '/Stock/UpdateStockUnit',
+                url: '/Stock/UpdateStock',
                 type: 'POST',
                 data: $('#editForm').serialize(),
                 success: function (result) {
