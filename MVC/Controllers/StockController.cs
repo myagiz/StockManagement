@@ -74,7 +74,7 @@ namespace MVC.Controllers
                 return RedirectToAction("StockType");
             }
             TempData["Error"] = result.Message;
-            return RedirectToAction("Index");
+            return RedirectToAction("StockType");
         }
 
 
@@ -97,11 +97,11 @@ namespace MVC.Controllers
                     return RedirectToAction("StockType");
                 }
                 TempData["Error"] = control.Message;
-                return RedirectToAction("Index");
+                return RedirectToAction("StockType");
             }
 
             TempData["Error"] = control.Message;
-            return RedirectToAction("Index");
+            return RedirectToAction("StockType");
 
         }
 
@@ -182,7 +182,7 @@ namespace MVC.Controllers
                 return RedirectToAction("StockUnit");
             }
             TempData["Error"] = result.Message;
-            return RedirectToAction("Index");
+            return RedirectToAction("StockUnit");
         }
 
         public IActionResult UpdateStockUnit(AllStockDto model)
@@ -211,11 +211,11 @@ namespace MVC.Controllers
                     return RedirectToAction("StockUnit");
                 }
                 TempData["Error"] = control.Message;
-                return RedirectToAction("Index");
+                return RedirectToAction("StockUnit");
             }
 
             TempData["Error"] = control.Message;
-            return RedirectToAction("Index");
+            return RedirectToAction("StockUnit");
 
         }
 
@@ -304,7 +304,7 @@ namespace MVC.Controllers
                 return RedirectToAction("Stock");
             }
             TempData["Error"] = result.Message;
-            return RedirectToAction("Index");
+            return RedirectToAction("Stock");
         }
 
         public IActionResult UpdateStock(AllStockDto model)
@@ -330,11 +330,11 @@ namespace MVC.Controllers
                     return RedirectToAction("Stock");
                 }
                 TempData["Error"] = control.Message;
-                return RedirectToAction("Index");
+                return RedirectToAction("Stock");
             }
 
             TempData["Error"] = control.Message;
-            return RedirectToAction("Index");
+            return RedirectToAction("Stock");
 
         }
 

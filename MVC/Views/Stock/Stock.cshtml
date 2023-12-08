@@ -5,6 +5,14 @@
 
 
 
+@if (TempData["Error"]! != null)
+{
+    <div style="margin-bottom:20px" class="alert alert-danger" role="alert">
+
+        <div class="text-danger">@TempData["Error"]</div>
+    </div>
+
+}
 
 <div class="row">
     <div class="col-lg-12">

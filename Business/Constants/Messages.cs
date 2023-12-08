@@ -20,6 +20,7 @@ namespace Business.Constants
         public static string NotFoundData = "Data not found !";
         public static string PasswordError = "Password Error";
         public static string SuccessfulLogin = "Login successfully!";
+        public static string AlreadyExists = "Already exists !";
         public static string UserAlreadyExists = "User already exists !";
         public static string UserRegistered = "User created successfully !";
         public static string AccessTokenCreated = "Access token created successfully !";

@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Aspects.Exception;
 using Core.Aspects.Logging;
 using Core.CrossCuttingConcerns.Logging.Log4Net.Loggers;
@@ -28,6 +30,7 @@ namespace Business.Concrete
             _stockDal = stockDal;
         }
 
+        [ValidationAspect(typeof(StockValidator))]
         public IResult AddStock(Stock model)
         {
             _stockDal.Add(model);
@@ -63,6 +66,7 @@ namespace Business.Concrete
             return new ErrorDataResult<GetStockDto>(Messages.NotFoundData);
         }
 
+        [ValidationAspect(typeof(StockValidator))]
         public IResult UpdateStock(Stock model)
         {
             var getData = _stockDal.Get(x => x.Id == model.Id);
