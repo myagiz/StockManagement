@@ -87,7 +87,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<GetStockUnitDto>>(result, Messages.Listed);
         }
 
-        [ValidationAspect(typeof(StockUnitValidator))]
+        //[ValidationAspect(typeof(StockUnitValidator))]
         public IResult UpdateStockUnit(StockUnit model)
         {
             var getData = _stockUnitDal.Get(x => x.Id == model.Id);

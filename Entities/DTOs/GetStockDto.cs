@@ -14,6 +14,8 @@ namespace Entities.DTOs
 
         public string StockTypeName { get; set; }
 
+        public string UnitName { get; set; }
+
         public string Code { get; set; }
 
         public int StockUnit { get; set; }

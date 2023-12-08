@@ -71,7 +71,7 @@ namespace Business.Concrete
             return new SuccessDataResult<StockType>(Messages.NotFoundData);
         }
 
-        [ValidationAspect(typeof(StockTypeValidator))]
+        //[ValidationAspect(typeof(StockTypeValidator))]
         public IResult UpdateStockType(StockType model)
         {
             var getData = _stockTypeDal.Get(x => x.Id == model.Id);

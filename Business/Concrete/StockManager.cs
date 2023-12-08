@@ -66,7 +66,7 @@ namespace Business.Concrete
             return new ErrorDataResult<GetStockDto>(Messages.NotFoundData);
         }
 
-        [ValidationAspect(typeof(StockValidator))]
+        //[ValidationAspect(typeof(StockValidator))]
         public IResult UpdateStock(Stock model)
         {
             var getData = _stockDal.Get(x => x.Id == model.Id);

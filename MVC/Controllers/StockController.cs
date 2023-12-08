@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Entities.DTOs;
 using Entities.Entity;
+using Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -136,6 +137,18 @@ namespace MVC.Controllers
                                                         }
                                                      ).ToList();
                 ViewBag.StockTypes = getDropdownList;
+
+                List<SelectListItem> unitTypesList = Enum.GetValues(typeof(UnitTypes))
+           .Cast<UnitTypes>()
+           .Select(e => new SelectListItem
+           {
+               Text = e.ToString(),
+               Value = ((int)e).ToString()
+           })
+           .ToList();
+
+                ViewBag.UnitTypes = unitTypesList;
+
                 return View(new AllStockDto
                 {
                     ListStockUnits = result.Data

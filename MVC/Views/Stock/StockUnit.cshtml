@@ -142,7 +142,7 @@
                     <div class="form-group row mb-2">
                         <label class="col-md-4 col-form-label"><strong>Unit</strong></label>
                         <div class="col-md-8">
-                            <input maxlength="100" asp-for="StockUnit.UnitId" class="form-control form-control-sm" />
+                            @Html.DropDownListFor(x=>x.StockUnit.UnitId,(List<SelectListItem>)ViewBag.UnitTypes,new {@class="form-control form-control-sm"})
                         </div>
                     </div>
                     <div class="form-group row mb-2">
@@ -217,14 +217,14 @@
                     <div class="form-group row mb-2">
                         <label class="col-md-4 col-form-label"><strong>Stock Type</strong></label>
                         <div class="col-md-8">
-                            @Html.DropDownListFor(x=>x.StockUnit.StockType,(List<SelectListItem>)ViewBag.StockTypes,new {@class="form-control form-control-sm",id="stockType"})
+                            @Html.DropDownListFor(x=>x.GetStockUnit.StockType,(List<SelectListItem>)ViewBag.StockTypes,new {@class="form-control form-control-sm",id="stockType"})
 
                         </div>
                     </div>
                     <div class="form-group row mb-2">
                         <label class="col-md-4 col-form-label"><strong>Unit</strong></label>
                         <div class="col-md-8">
-                            <input id="unitId" maxlength="100" asp-for="GetStockUnit.UnitId" class="form-control form-control-sm" />
+                            @Html.DropDownListFor(x=>x.GetStockUnit.UnitId,(List<SelectListItem>)ViewBag.UnitTypes,new {@class="form-control form-control-sm",id="unitId"})
                         </div>
                     </div>
                     <div class="form-group row mb-2">
@@ -239,7 +239,7 @@
                             <input id="purchasePrice" type="number" asp-for="GetStockUnit.PurchasePrice" class="form-control form-control-sm" />
                         </div>
                         <div class="col-md-2">
-                            <select class="form-control form-control-sm" id="purchaseCurrencyId" asp-for="StockUnit.PurchaseCurrencyId">
+                            <select class="form-control form-control-sm" id="purchaseCurrencyId" asp-for="GetStockUnit.PurchaseCurrencyId">
                                 <option value="1">TL</option>
                                 <option value="2">Euro</option>
                                 <option value="3">USD</option>
@@ -253,7 +253,7 @@
                             <input id="salePrice" type="number" asp-for="GetStockUnit.SalePrice" class="form-control form-control-sm" />
                         </div>
                         <div class="col-md-2">
-                            <select class="form-control form-control-sm" id="saleCurrencyId" asp-for="StockUnit.SaleCurrencyId">
+                            <select class="form-control form-control-sm" id="saleCurrencyId" asp-for="GetStockUnit.SaleCurrencyId">
                                 <option value="1">TL</option>
                                 <option value="2">Euro</option>
                                 <option value="3">USD</option>
