@@ -1,5 +1,8 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Business.Abstract;
 using Business.Concrete;
+using Business.DependencyResolvers;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EfCore;
 
@@ -9,14 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(); ;
 
-builder.Services.AddTransient<IStockTypeDal, EfCoreStockType>();
-builder.Services.AddTransient<IStockTypeService, StockTypeManager>();
-
-builder.Services.AddTransient<IStockUnitDal, EfCoreStockUnitDal>();
-builder.Services.AddTransient<IStockUnitService, StockUnitManager>();
-
-builder.Services.AddTransient<IStockDal, EfCoreStockDal>();
-builder.Services.AddTransient<IStockService, StockManager>();
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+builder.Host.ConfigureContainer<ContainerBuilder>(
+   builder => builder.RegisterModule(new AutofacBusinessModule()));
 
 var app = builder.Build();
 

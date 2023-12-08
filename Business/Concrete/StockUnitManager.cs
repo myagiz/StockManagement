@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Aspects.Exception;
+using Core.Aspects.Logging;
+using Core.CrossCuttingConcerns.Logging.Log4Net.Loggers;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete.ErrorResults;
 using Core.Utilities.Results.Concrete.SuccessResults;
@@ -14,6 +17,8 @@ using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
+    [LogAspect(typeof(FileLogger))]
+    [ExceptionLogAspect(typeof(FileLogger))]
     public class StockUnitManager : IStockUnitService
     {
         private readonly IStockUnitDal _stockUnitDal;
